@@ -1,6 +1,7 @@
 **/data
 **/results
 **/genome
+**/figures
 *.out
 *.err
 .DS_Store
