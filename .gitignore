@@ -5,3 +5,4 @@
 *.out
 *.err
 .DS_Store
+.Rproj.user
