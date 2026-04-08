@@ -29,12 +29,11 @@ INDIR=../../results/alignments/
 OUTDIR=../../results/alignQC/samstats
 mkdir -p $OUTDIR
 
-ACCLIST=../../metadata/accessionlist.txt
-
 # samtools bam statistics----------------------------------------------------------------
 
-cat $ACCLIST | parallel -j 10 \
-	"samtools stats $INDIR/PATH_{}.bam >$OUTDIR/PATH_{}.stats"
+find ../../results/alignments/ -name "*.bam" | sed 's,.*/,, ; s/.bam//' | sort | 
+	parallel -j 10 \
+	"samtools stats $INDIR/{}.bam >$OUTDIR/{}.stats"
 
 # put the basic stats all in one file.---------------------------------------------------
 

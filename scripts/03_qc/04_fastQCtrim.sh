@@ -9,7 +9,7 @@
 #SBATCH --qos=general
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=
-#SBATCH --array=[1-110]
+#SBATCH --array=[1-578]
 #SBATCH -o %x_%A_%a.out
 #SBATCH -e %x_%A_%a.err
 
@@ -22,15 +22,16 @@ module load fastqc/0.12.1
 
 #input/output directories, supplementary files
 INDIR=../../results/trimmedFastq/
-
 OUTDIR=../../results/sequenceQC/fastqcTrim
 mkdir -p ${OUTDIR}
 
-ACCLIST=../../metadata/accessionlist.txt
+# accession list
+MANIFEST=../../metadata/manifest_pathIDs.txt
 
-# get sample ID
-
-PATHID=$(sed -n ${SLURM_ARRAY_TASK_ID}p ${ACCLIST})
+# get sample info from manifest
+FQ1=$(sed -n ${SLURM_ARRAY_TASK_ID}p ${MANIFEST} | cut -f 3)
+FQ2=$(sed -n ${SLURM_ARRAY_TASK_ID}p ${MANIFEST} | cut -f 4)
+PATHID=$(sed -n ${SLURM_ARRAY_TASK_ID}p ${MANIFEST} | cut -f 6)
 
 # run fastqc
-fastqc -t 2 -o ${OUTDIR} ${INDIR}/PATH_${PATHID}*
+fastqc -t 2 -o ${OUTDIR} ${INDIR}/${PATHID}-CBC${SLURM_ARRAY_TASK_ID}_trim_{1,2}.fastq.gz

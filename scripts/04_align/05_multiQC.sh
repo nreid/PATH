@@ -18,7 +18,7 @@ date
 # Aggregate reports using MultiQC
 #################################################################
 
-module load MultiQC/1.29
+module load MultiQC/1.33
 
 STATS=../../results/alignQC/samstats
 QUALIMAP=../../results/alignQC/qualimapReports
